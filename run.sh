@@ -1,1 +1,1 @@
-spark-submit --class GammaCSV target/scala-2.10/gammacsv_2.10-1.0.jar
+spark-submit --class GammaSpark target/scala-2.10/gammaspark_2.10-1.0.jar

@@ -64,12 +64,33 @@ class GammaMatrix (
   def n: Double = values(0)
 
   def L(i: Int): Double = {
-    require(i>0 && i<=d, "i needs to be greater than zero and less or equal to d ($d).")
-    values(i)
+    // require(i>=0 && i<d, "i needs to be greater than zero and less or equal to d ($d).")
+    values(i+1)
   }
 
   def Q(i: Int, j: Int): Double = {
-    require(i>0 && i<=d && j>0 && j<=d, "i and j needs to be greater than zero and less or equal to d ($d).")
-    values(j * numRows + i)
+    // require(i>=0 && i<d && j>0 && j<=d, "i and j needs to be greater than zero and less or equal to d ($d).")
+    values((j+1) * numRows + i+1)
+  }
+
+  def corr: Matrix = {
+    val rho = new BDM[Double](d, d)
+    val diagQ = new Array[Double](d)
+
+    for (a <- 0 to d-1) {
+      diagQ(a) = Q(a,a)
+      val La = L(a)
+      val LaLa = La*La
+      for (b <- 0 to a) {
+        val Lb = L(b)
+        val denominator = scala.math.sqrt(n*diagQ(a)-LaLa) * scala.math.sqrt(n*diagQ(b)-Lb*Lb)
+        if (denominator != 0)
+          rho(a,b) = (n*Q(a,b) - La*Lb) / denominator
+        else
+          rho(a,b) = Double.NaN
+        rho(b,a) = rho(a,b)
+      }
+    }
+    Matrices.dense(d, d, rho.data)
   }
 }

@@ -4,9 +4,9 @@ import org.apache.spark.SparkConf
 import org.apache.spark.mllib.linalg.distributed._
 import org.apache.spark.mllib.linalg._
 
-object GammaCSV {
+object GammaSpark {
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("GammaCSV")
+    val conf = new SparkConf().setAppName("GammaSpark")
     val sc = new SparkContext(conf)
     val filePath: String = ("hdfs://node1:54310/KDDn100Kd38_Y.csv")
     val Z = sc.textFile(filePath).map { line =>
@@ -14,11 +14,12 @@ object GammaCSV {
       Vectors.dense(Array[Double](1.0) ++ values)
     }
     val matZ = new RowMatrix(Z)
-    val Gamma = new GammaMatrix(matZ.numCols.toInt, matZ.numCols.toInt, matZ.computeGramianMatrix().toArray, true)
+    val Gamma = new GammaMatrix(matZ.numCols.toInt, matZ.numCols.toInt, matZ.computeGramianMatrix().toArray, false)
     println("Gamma:\n" + Gamma)    
     println("n="+Gamma.n)
     println("L[3]="+Gamma.L(3))
     println("Q[3,3]="+Gamma.Q(3,3))
+    println("Corr: \n" + Gamma.corr)
     sc.stop()
   }
 }
