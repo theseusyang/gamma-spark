@@ -28,12 +28,13 @@ import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 import org.apache.spark.mllib.linalg.distributed._
 import org.apache.spark.mllib.linalg._
+import org.apache.spark.api.java.JavaSparkContext
 
 object GammaSpark {
 
-  def Gamma(sc: SparkContext, filePath: String,
+  def Gamma(sc: JavaSparkContext, filePath: String,
             includesY: Boolean): Array[Double] = {
-    val Z = sc.textFile(filePath).map { line =>
+    val Z = sc.sc.textFile(filePath).map { line =>
       val values = line.split(',').map(_.toDouble)
       Vectors.dense(Array[Double](1.0) ++ values)
     }
