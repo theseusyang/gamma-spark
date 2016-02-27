@@ -32,8 +32,7 @@ import org.apache.spark.api.java.JavaSparkContext
 
 object GammaSpark {
 
-  def Gamma(sc: JavaSparkContext, filePath: String,
-            includesY: Boolean): Array[Double] = {
+  def Gamma(sc: JavaSparkContext, filePath: String): Array[Double] = {
     val Z = sc.sc.textFile(filePath).map { line =>
       val values = line.split(',').map(_.toDouble)
       Vectors.dense(Array[Double](1.0) ++ values)
