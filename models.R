@@ -60,7 +60,7 @@ getPCA = function(Gamma, d) {
 }
 
 timeForGamma = function(sc, filePath) {
-  tGamma = system.time( Gamma <- getGamma( sc, filePath ) )
+  tGamma = system.time( Gamma <- getGamma( sc, filePath ) )[3]
   cat(filePath, ":\nGamma: ", tGamma, " seconds.\n", sep="")
 }
 
