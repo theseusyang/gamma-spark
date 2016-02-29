@@ -16,9 +16,15 @@
 
 # Linear regression and PCA in R using Spark.
 
+if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
+  Sys.setenv(SPARK_HOME = "/usr/local/spark")
+}
+library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
+sc <- sparkR.init(master = "spark://node1:7077", sparkEnvir = list(spark.executor.memory="2g"), sparkJars=c("gammaspark_2.10-1.0.jar"))
+
 getGamma = function(sc, filePath) {
   GammaByte <- SparkR:::callJStatic("GammaSpark", "Gamma", sc, filePath)
-  Gamma <- matrix(unlist(Gamma), ncol=sqrt(length(Gamma)))
+  Gamma <- matrix(unlist(GammaByte), ncol=sqrt(length(GammaByte)))
   return(Gamma)
 }
 
@@ -61,12 +67,6 @@ timeForDataset = function(sc, filePath, d) {
   cat("PCA: ", tGamma+tPCA, " seconds in total.\n", sep="")
   cat("LR: ", tGamma+tLR, " seconds in total.\n", sep="")
 }
-
-if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
-  Sys.setenv(SPARK_HOME = "/usr/local/spark")
-}
-library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
-sc <- sparkR.init(master = "spark://node1:7077", sparkEnvir = list(spark.executor.memory="2g"), sparkJars=c("gammaspark_2.10-1.0.jar"))
 
 timeForDataset(sc, "hdfs://node1:54310/KDDn100Kd38_Y.csv", 38)
 timeForDataset(sc, "hdfs://node1:54310/KDDn001Md38_Y.csv", 38)
