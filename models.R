@@ -76,3 +76,4 @@ timeForDataset = function(sc, filePath, d) {
 timeForGamma(sc, "hdfs://node1:54310/KDDn100Kd38_Y.csv")
 timeForGamma(sc, "hdfs://node1:54310/KDDn001Md38_Y.csv")
 timeForDataset(sc, "hdfs://node1:54310/KDDn010Md38_Y.csv", 38)
+timeForDataset(sc, "hdfs://node1:54310/KDDn100Md38_Y.csv", 38)

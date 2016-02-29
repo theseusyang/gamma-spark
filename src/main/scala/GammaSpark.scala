@@ -60,7 +60,8 @@ object GammaSpark {
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("GammaSpark")
     val sc = new SparkContext(conf)
-    val filePath: String = ("hdfs://node1:54310/KDDn100Kd38_Y.csv")
+    // val filePath: String = ("hdfs://node1:54310/KDDn100Kd38_Y.csv")
+    val filePath: String = args(0)
     GammaMatrixDemo(sc, filePath, false)
     sc.stop()
   }
