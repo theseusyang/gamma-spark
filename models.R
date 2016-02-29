@@ -59,6 +59,11 @@ getPCA = function(Gamma, d) {
   return(svd(Rho))
 }
 
+timeForGamma = function(sc, filePath) {
+  tGamma = system.time( Gamma <- getGamma( sc, filePath ) )
+  cat(filePath, ":\nGamma: ", tGamma, " seconds.\n", sep="")
+}
+
 timeForDataset = function(sc, filePath, d) {
   tGamma = system.time( Gamma <- getGamma( sc, filePath ) )[3]
   tPCA = system.time( pcaResult <- getPCA( Gamma, d ) )[3]
@@ -68,6 +73,6 @@ timeForDataset = function(sc, filePath, d) {
   cat("LR: ", tGamma+tLR, " seconds in total.\n", sep="")
 }
 
-timeForDataset(sc, "hdfs://node1:54310/KDDn100Kd38_Y.csv", 38)
-timeForDataset(sc, "hdfs://node1:54310/KDDn001Md38_Y.csv", 38)
+timeForGamma(sc, "hdfs://node1:54310/KDDn100Kd38_Y.csv")
+timeForGamma(sc, "hdfs://node1:54310/KDDn001Md38_Y.csv")
 timeForDataset(sc, "hdfs://node1:54310/KDDn010Md38_Y.csv", 38)
