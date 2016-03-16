@@ -73,6 +73,9 @@ timeForDataset = function(sc, filePath, d) {
   cat("LR: ", tGamma+tLR, " seconds in total.\n", sep="")
 }
 
+# hadoop fs -D dfs.block.size=6291456 -put kdd100kd020.csv /
+timeForGamma(sc, "hdfs://node1:54310/kdd100kd020.csv")
+
 timeForGamma(sc, "hdfs://node1:54310/KDDn100Kd38_Y.csv")
 timeForGamma(sc, "hdfs://node1:54310/KDDn001Md38_Y.csv")
 timeForDataset(sc, "hdfs://node1:54310/KDDn010Md38_Y.csv", 38)
